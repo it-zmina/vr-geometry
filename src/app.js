@@ -1,8 +1,7 @@
-// import * as THREE from 'three/build/three.module.js'
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import {VRButton} from "three/examples/jsm/webxr/VRButton"
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
+import {DRACOLoader} from "three/examples/jsm/loaders/DRACOLoader"
 
 import blimp from "../assets/Blimp.glb"
 import chair from "../assets/medieval-chair.glb"
@@ -42,17 +41,15 @@ class App {
 
 
   initScene() {
-    const geometry = new THREE.BoxBufferGeometry()
+    const geometry = new THREE.BoxBufferGeometry(.5, .5, .5)
     const material = new THREE.MeshStandardMaterial({color: 0xFF0000})
-
     this.mesh = new THREE.Mesh(geometry, material)
-
     this.scene.add(this.mesh)
 
     const geometrySphere = new THREE.SphereGeometry(.7, 32, 16)
     const materialSphere = new THREE.MeshBasicMaterial({color: 0xffff00})
     const sphere = new THREE.Mesh(geometrySphere, materialSphere)
-    // this.scene.add(sphere)
+    this.scene.add(sphere)
 
     sphere.position.set(1.5, 0, 0)
 
@@ -63,7 +60,7 @@ class App {
     })
 
     this.loadAsset(chair, .5, .5, 1, scene => {
-      const scale = 5
+      const scale = 1
       scene.scale.set(scale, scale, scale)
       self.chair = scene
     })
@@ -73,6 +70,11 @@ class App {
   loadAsset(gltfFilename, x, y, z, sceneHandler) {
     const self = this
     const loader = new GLTFLoader()
+    // Provide a DRACOLoader instance to decode compressed mesh data
+    const draco = new DRACOLoader()
+    draco.setDecoderPath('draco/')
+    loader.setDRACOLoader(draco)
+
     loader.load(gltfFilename, (gltf) => {
           const gltfScene = gltf.scene
           self.scene.add(gltfScene)

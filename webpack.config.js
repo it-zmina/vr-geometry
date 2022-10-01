@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -9,11 +9,11 @@ module.exports = {
       title: 'VR Geometry',
       favicon: './src/logo.png'
     }),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     {from: 'node_modules/@webxr-input-profiles/assets/dist/profiles', to: 'webxr-input-profiles'}
-    //   ]
-    // })
+    new CopyWebpackPlugin({
+      patterns: [
+        {from: 'node_modules/three/examples/js/libs/draco', to: 'draco'}
+      ]
+    })
   ],
   module: {
     rules: [
