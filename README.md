@@ -9,7 +9,7 @@ Add grip controller:
 
 ```
     // Add grip controller
-    const grip = this.renderer.xr.getControllerGrip(this.index)
+    const grip = this.renderer.xr.getControllerGrip(0)
     grip.add(new XRControllerModelFactory().createControllerModel(grip))
     this.scene.add(grip)
 ```
